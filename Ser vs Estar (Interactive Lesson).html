@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Lesson: Ser vs. Estar</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container {
+            max-width: 90%; /* Fluid width */
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-lg */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .flashcard {
+            width: 180px;
+            height: 120px;
+            perspective: 1000px;
+            cursor: pointer;
+            border-radius: 0.5rem; /* rounded-md */
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 0.5rem; /* rounded-md */
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            border-radius: 0.5rem; /* rounded-md */
+        }
+        .flashcard-front {
+            background-color: #6366f1; /* indigo-500 */
+            color: white;
+        }
+        .flashcard-back {
+            background-color: #818cf8; /* indigo-400 */
+            color: white;
+            transform: rotateY(180deg);
+        }
+        .question-group {
+            margin-bottom: 2rem;
+        }
+        .question-group h3 {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            margin-bottom: 1rem;
+            color: #4338ca; /* indigo-700 */
+        }
+        .question-item {
+            background-color: #e0e7ff; /* indigo-100 */
+            padding: 1rem;
+            border-radius: 0.5rem; /* rounded-md */
+            margin-bottom: 0.75rem;
+        }
+        .quiz-input {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 0.375rem; /* rounded-md */
+            border: 1px solid #d1d5db; /* gray-300 */
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .quiz-input:focus {
+            border-color: #6366f1; /* indigo-500 */
+        }
+        .quiz-option {
+            display: block;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+        .quiz-option input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+        .feedback {
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+        .feedback.correct {
+            color: #10b981; /* emerald-500 */
+        }
+        .feedback.incorrect {
+            color: #ef4444; /* red-500 */
+        }
+        .check-button {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem; /* rounded-md */
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .check-button:hover {
+            background-color: #4338ca; /* indigo-700 */
+        }
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px; /* md:max-w-3xl */
+            }
+            .flashcard {
+                width: 200px;
+                height: 140px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1024px; /* lg:max-w-5xl */
+            }
+            .flashcard {
+                width: 220px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-blue-50 text-gray-800">
+    <header class="bg-indigo-700 text-white p-6 shadow-md rounded-b-xl mb-8">
+        <div class="container text-center">
+            <h1 class="text-4xl font-bold mb-2">¡Hola, Estudiantes!</h1>
+            <p class="text-xl">Aprendiendo 'Ser' y 'Estar' en Español</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Introduction Section -->
+        <section class="card bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4">¿Ser o Estar? Un Reto Común</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                ¡Bienvenidos a esta lección interactiva de español! Hoy vamos a explorar dos de los verbos más importantes y a veces confusos en español: 'ser' y 'estar'. Ambos significan "to be" en inglés, pero se usan en situaciones muy diferentes. ¡No te preocupes, con esta lección lo dominarás!
+            </p>
+            <p class="text-lg leading-relaxed">
+                Piensa en 'ser' como algo más permanente o inherente, y 'estar' como algo más temporal o relacionado con la ubicación. ¡Vamos a ver los detalles!
+            </p>
+        </section>
+
+        <!-- Ser Section -->
+        <section class="card bg-indigo-50 p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4">El Verbo 'Ser': ¡DOCTOR!</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                Usamos 'ser' para hablar de cosas que son más permanentes, o características que no cambian a menudo. Un buen acrónimo para recordar los usos de 'ser' es <strong class="text-indigo-600">D.O.C.T.O.R.</strong>
+            </p>
+            <ul class="list-disc list-inside text-lg leading-relaxed space-y-2 mb-4">
+                <li><strong>D</strong>escription (Descripción): Características permanentes de una persona o cosa.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `Yo <span class="text-red-500">soy</span> alto.` (I am tall.) `Ella <span class="text-red-500">es</span> inteligente.` (She is intelligent.)
+                </li>
+                <li><strong>O</strong>ccupation (Ocupación): La profesión de alguien.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `Mi padre <span class="text-red-500">es</span> médico.` (My father is a doctor.) `Yo <span class="text-red-500">soy</span> estudiante.` (I am a student.)
+                </li>
+                <li><strong>C</strong>haracteristic (Característica): Rasgos inherentes o de personalidad.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `Carlos <span class="text-red-500">es</span> simpático.` (Carlos is nice.) `La casa <span class="text-red-500">es</span> grande.` (The house is big.)
+                </li>
+                <li><strong>T</strong>ime/Date (Tiempo/Fecha): La hora o el día.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `<span class="text-red-500">Son</span> las tres.` (It's three o'clock.) `Hoy <span class="text-red-500">es</span> viernes.` (Today is Friday.)
+                </li>
+                <li><strong>O</strong>rigin (Origen): De dónde es alguien o algo.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `<span class="text-red-500">Soy</span> de México.` (I am from Mexico.) `El café <span class="text-red-500">es</span> de Colombia.` (The coffee is from Colombia.)
+                </li>
+                <li><strong>R</strong>elation (Relación): Parentesco o posesión.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `María <span class="text-red-500">es</span> mi hermana.` (Maria is my sister.) `Este libro <span class="text-red-500">es</span> para ti.` (This book is for you.)
+                </li>
+            </ul>
+            <div class="cultural-note bg-indigo-100 p-4 rounded-md mt-4">
+                <h3 class="font-bold text-xl text-indigo-700 mb-2">💡 Nota Cultural:</h3>
+                <p class="text-lg leading-relaxed">
+                    En muchas culturas hispanohablantes, el origen y la familia son muy importantes. Usar 'ser de' para indicar de dónde eres o 'ser' para hablar de relaciones, enfatiza esta conexión profunda con la identidad y la comunidad.
+                </p>
+            </div>
+        </section>
+
+        <!-- Estar Section -->
+        <section class="card bg-indigo-50 p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4">El Verbo 'Estar': ¡PLACE!</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                Usamos 'estar' para hablar de cosas que son más temporales, o que pueden cambiar. Un buen acrónimo para recordar los usos de 'estar' es <strong class="text-indigo-600">P.L.A.C.E.</strong>
+            </p>
+            <ul class="list-disc list-inside text-lg leading-relaxed space-y-2 mb-4">
+                <li><strong>P</strong>osition (Posición): La ubicación física de algo o alguien.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `El libro <span class="text-red-500">está</span> sobre la mesa.` (The book is on the table.)
+                </li>
+                <li><strong>L</strong>ocation (Ubicación): Dónde está algo o alguien.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `Yo <span class="text-red-500">estoy</span> en la escuela.` (I am at school.) `Madrid <span class="text-red-500">está</span> en España.` (Madrid is in Spain.)
+                </li>
+                <li><strong>A</strong>ction (Acción): Se usa con el presente progresivo (verbo + -ndo).
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `Nosotros <span class="text-red-500">estamos</span> comiendo.` (We are eating.) `Ella <span class="text-red-500">está</span> estudiando.` (She is studying.)
+                </li>
+                <li><strong>C</strong>ondition (Condición): Estados temporales o cómo se siente algo o alguien.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `Yo <span class="text-red-500">estoy</span> cansado.` (I am tired.) `La puerta <span class="text-red-500">está</span> abierta.` (The door is open.)
+                </li>
+                <li><strong>E</strong>motion (Emoción): Cómo se siente alguien.
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `Yo <span class="text-red-500">estoy</span> feliz.` (I am happy.) `Ellos <span class="text-red-500">están</span> tristes.` (They are sad.)
+                </li>
+            </ul>
+            <div class="cultural-note bg-indigo-100 p-4 rounded-md mt-4">
+                <h3 class="font-bold text-xl text-indigo-700 mb-2">💡 Nota Cultural:</h3>
+                <p class="text-lg leading-relaxed">
+                    Aunque es importante ser respetuoso con las emociones, en español es común preguntar "¿Cómo estás?" para saber sobre el estado de ánimo actual. 'Estar' se utiliza para estos estados temporales, mientras que 'ser' se reserva para describir la personalidad fundamental. Por ejemplo, "Soy feliz" implicaría una persona con una personalidad alegre, mientras que "Estoy feliz" se refiere a un sentimiento actual.
+                </p>
+            </div>
+        </section>
+
+        <!-- Tricky Cases Section -->
+        <section class="card bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4">Casos Especiales: ¡Ser vs. Estar Puede Cambiar el Significado!</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                ¡Atención! Con algunos adjetivos, el uso de 'ser' o 'estar' puede cambiar completamente el significado.
+            </p>
+            <ul class="list-disc list-inside text-lg leading-relaxed space-y-2 mb-4">
+                <li><strong>Ser aburrido</strong> (to be boring - characteristic) vs. <strong>Estar aburrido</strong> (to be bored - condition)
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `El libro <span class="text-red-500">es</span> aburrido.` (The book is boring.) `Yo <span class="text-red-500">estoy</span> aburrido.` (I am bored.)
+                </li>
+                <li><strong>Ser listo</strong> (to be smart/clever - characteristic) vs. <strong>Estar listo</strong> (to be ready - condition)
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `Mi hermano <span class="text-red-500">es</span> listo.` (My brother is smart.) `¿<span class="text-red-500">Estás</span> listo para irte?` (Are you ready to go?)
+                </li>
+                <li><strong>Ser bueno</strong> (to be good - characteristic/moral) vs. <strong>Estar bueno</strong> (to be good/tasty - condition/attractive)
+                    <br><span class="font-semibold text-indigo-800">Ejemplo:</span> `Él <span class="text-red-500">es</span> bueno.` (He is a good person.) `La comida <span class="text-red-500">está</span> buena.` (The food is tasty.)
+                </li>
+            </ul>
+        </section>
+
+
+        <!-- Business Vocabulary Flashcards -->
+        <section class="card bg-indigo-50 p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4">Tarjetas de Vocabulario de Negocios (Nombres/Adjetivos)</h2>
+            <p class="text-lg leading-relaxed mb-4">Haz clic en la tarjeta para ver la traducción.</p>
+            <div class="flashcard-container" id="vocab-flashcards"></div>
+        </section>
+
+        <!-- Business Verbs Flashcards -->
+        <section class="card bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4">Tarjetas de Vocabulario de Negocios (Verbos)</h2>
+            <p class="text-lg leading-relaxed mb-4">Haz clic en la tarjeta para ver la traducción.</p>
+            <div class="flashcard-container" id="verbs-flashcards"></div>
+        </section>
+
+        <!-- Practice Questions Section -->
+        <section class="card bg-indigo-50 p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-6">¡Hora de Practicar!</h2>
+
+            <!-- Short Answer Questions -->
+            <div class="question-group">
+                <h3>1. Preguntas de Respuesta Corta (Usa 'ser' o 'estar' conjugado)</h3>
+                <div class="space-y-4">
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">1. Yo ______ (ser/estar) estudiante.</p>
+                        <input type="text" id="sa1" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="sa1-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">2. El libro ______ (ser/estar) en la mesa.</p>
+                        <input type="text" id="sa2" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="sa2-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">3. Nosotros ______ (ser/estar) cansados.</p>
+                        <input type="text" id="sa3" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="sa3-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">4. Ella ______ (ser/estar) de España.</p>
+                        <input type="text" id="sa4" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="sa4-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">5. ¿Dónde ______ (ser/estar) la oficina?</p>
+                        <input type="text" id="sa5" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="sa5-feedback" class="feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multiple Choice Questions -->
+            <div class="question-group">
+                <h3>2. Preguntas de Opción Múltiple</h3>
+                <div class="space-y-4">
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">1. Mi madre ______ profesora.</p>
+                        <label class="quiz-option"><input type="radio" name="mc1" value="es"> a) es</label>
+                        <label class="quiz-option"><input type="radio" name="mc1" value="está"> b) está</label>
+                        <div id="mc1-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">2. Ahora mismo, ______ comiendo.</p>
+                        <label class="quiz-option"><input type="radio" name="mc2" value="soy"> a) soy</label>
+                        <label class="quiz-option"><input type="radio" name="mc2" value="estoy"> b) estoy</label>
+                        <div id="mc2-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">3. La sopa ______ caliente.</p>
+                        <label class="quiz-option"><input type="radio" name="mc3" value="es"> a) es</label>
+                        <label class="quiz-option"><input type="radio" name="mc3" value="está"> b) está</label>
+                        <div id="mc3-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">4. Ellos ______ muy amables.</p>
+                        <label class="quiz-option"><input type="radio" name="mc4" value="son"> a) son</label>
+                        <label class="quiz-option"><input type="radio" name="mc4" value="están"> b) están</label>
+                        <div id="mc4-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">5. ______ las siete de la tarde.</p>
+                        <label class="quiz-option"><input type="radio" name="mc5" value="es"> a) Es</label>
+                        <label class="quiz-option"><input type="radio" name="mc5" value="son"> b) Son</label>
+                        <div id="mc5-feedback" class="feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fill in the Blanks Questions -->
+            <div class="question-group">
+                <h3>3. Rellena los Espacios en Blanco (Escribe 'ser' o 'estar' conjugado)</h3>
+                <div class="space-y-4">
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">1. El coche ______ azul.</p>
+                        <input type="text" id="fb1" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="fb1-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">2. ¿Cómo ______ tú hoy?</p>
+                        <input type="text" id="fb2" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="fb2-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">3. Mi padre ______ un hombre inteligente.</p>
+                        <input type="text" id="fb3" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="fb3-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">4. Nosotros ______ en Madrid.</p>
+                        <input type="text" id="fb4" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="fb4-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">5. Yo ______ contento con mi trabajo.</p>
+                        <input type="text" id="fb5" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="fb5-feedback" class="feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Translation Questions -->
+            <div class="question-group">
+                <h3>4. Traduce al Español</h3>
+                <div class="space-y-4">
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">1. He is tall.</p>
+                        <input type="text" id="tr1" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="tr1-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">2. The meeting is in the office.</p>
+                        <input type="text" id="tr2" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="tr2-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">3. We are tired.</p>
+                        <input type="text" id="tr3" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="tr3-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">4. Today is Monday.</p>
+                        <input type="text" id="tr4" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="tr4-feedback" class="feedback"></div>
+                    </div>
+                    <div class="question-item">
+                        <p class="font-semibold mb-2">5. Are you happy (temporary)?</p>
+                        <input type="text" id="tr5" class="quiz-input" placeholder="Tu respuesta">
+                        <div id="tr5-feedback" class="feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-8">
+                <button onclick="checkAllAnswers()" class="check-button">Verificar Respuestas</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-indigo-700 text-white p-6 mt-8 rounded-t-xl text-center">
+        <div class="container">
+            <p>&copy; 2025 Lección de Español. ¡Sigue practicando!</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data for flashcards
+        const vocabFlashcards = [
+            { spanish: 'la empresa', english: 'the company' },
+            { spanish: 'el negocio', english: 'the business' },
+            { spanish: 'el mercado', english: 'the market' },
+            { spanish: 'el producto', english: 'the product' },
+            { spanish: 'el cliente', english: 'the client/customer' },
+            { spanish: 'el empleado', english: 'the employee' },
+            { spanish: 'el jefe/la jefa', english: 'the boss' },
+            { spanish: 'la reunión', english: 'the meeting' },
+            { spanish: 'la oficina', english: 'the office' },
+            { spanish: 'las ventas', english: 'the sales' },
+            { spanish: 'el presupuesto', english: 'the budget' },
+            { spanish: 'la publicidad', english: 'the advertising' },
+            { spanish: 'el contrato', english: 'the contract' },
+            { spanish: 'la inversión', english: 'the investment' },
+            { spanish: 'el éxito', english: 'the success' }
+        ];
+
+        const verbsFlashcards = [
+            { spanish: 'vender', english: 'to sell' },
+            { spanish: 'comprar', english: 'to buy' },
+            { spanish: 'trabajar', english: 'to work' },
+            { spanish: 'negociar', english: 'to negotiate' },
+            { spanish: 'invertir', english: 'to invest' },
+            { spanish: 'producir', english: 'to produce' },
+            { spanish: 'gestionar', english: 'to manage' },
+            { spanish: 'reunirse', english: 'to meet (reflexive)' },
+            { spanish: 'publicitar', english: 'to advertise' },
+            { spanish: 'exportar', english: 'to export' }
+        ];
+
+        /**
+         * Creates and appends flashcard elements to a container.
+         * @param {Array<Object>} cards - An array of card objects {spanish: string, english: string}.
+         * @param {string} containerId - The ID of the HTML element to append flashcards to.
+         */
+        function createFlashcards(cards, containerId) {
+            const container = document.getElementById(containerId);
+            cards.forEach(card => {
+                const flashcard = document.createElement('div');
+                flashcard.className = 'flashcard';
+                flashcard.onclick = () => flashcard.classList.toggle('flipped');
+
+                const inner = document.createElement('div');
+                inner.className = 'flashcard-inner';
+
+                const front = document.createElement('div');
+                front.className = 'flashcard-front';
+                front.textContent = card.spanish;
+
+                const back = document.createElement('div');
+                back.className = 'flashcard-back';
+                back.textContent = card.english;
+
+                inner.appendChild(front);
+                inner.appendChild(back);
+                flashcard.appendChild(inner);
+                container.appendChild(flashcard);
+            });
+        }
+
+        // Initialize flashcards on window load
+        window.onload = function() {
+            createFlashcards(vocabFlashcards, 'vocab-flashcards');
+            createFlashcards(verbsFlashcards, 'verbs-flashcards');
+        };
+
+        // Quiz Answers
+        const quizAnswers = {
+            // Short Answer (case-insensitive, trim whitespace)
+            sa1: 'soy',
+            sa2: 'está',
+            sa3: 'estamos',
+            sa4: 'es',
+            sa5: 'está',
+
+            // Multiple Choice
+            mc1: 'es',
+            mc2: 'estoy',
+            mc3: 'está',
+            mc4: 'son',
+            mc5: 'son',
+
+            // Fill in the Blanks (case-insensitive, trim whitespace)
+            fb1: 'es',
+            fb2: 'estás',
+            fb3: 'es',
+            fb4: 'estamos',
+            fb5: 'estoy',
+
+            // Translation (case-insensitive, trim whitespace, allow minor variations)
+            tr1: ['Él es alto.', 'El es alto.'],
+            tr2: ['La reunión está en la oficina.', 'La reunion está en la oficina.', 'La reunión esta en la oficina.', 'La reunion esta en la oficina.'],
+            tr3: ['Nosotros estamos cansados.', 'Estamos cansados.'],
+            tr4: ['Hoy es lunes.'],
+            tr5: ['¿Estás feliz?', '¿Está feliz?'] // Allowing 'tú' or 'usted' form
+        };
+
+        /**
+         * Checks a single short answer/fill-in-the-blank question.
+         * @param {string} inputId - ID of the input element.
+         * @param {string} feedbackId - ID of the feedback element.
+         * @param {string} correctAnswer - The expected answer.
+         */
+        function checkShortAnswer(inputId, feedbackId, correctAnswer) {
+            const input = document.getElementById(inputId);
+            const feedback = document.getElementById(feedbackId);
+            const userAnswer = input.value.trim().toLowerCase();
+
+            if (userAnswer === correctAnswer.toLowerCase()) {
+                feedback.textContent = '¡Correcto!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = `Incorrecto. La respuesta correcta es: ${correctAnswer}`;
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        /**
+         * Checks a single multiple-choice question.
+         * @param {string} name - Name attribute of the radio buttons.
+         * @param {string} feedbackId - ID of the feedback element.
+         * @param {string} correctAnswer - The expected value of the selected radio button.
+         */
+        function checkMultipleChoice(name, feedbackId, correctAnswer) {
+            const selectedOption = document.querySelector(`input[name="${name}"]:checked`);
+            const feedback = document.getElementById(feedbackId);
+
+            if (selectedOption && selectedOption.value === correctAnswer) {
+                feedback.textContent = '¡Correcto!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = `Incorrecto. La respuesta correcta es: ${correctAnswer}`;
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        /**
+         * Checks a single translation question.
+         * @param {string} inputId - ID of the input element.
+         * @param {string} feedbackId - ID of the feedback element.
+         * @param {Array<string>} correctAnswers - An array of accepted correct answers.
+         */
+        function checkTranslation(inputId, feedbackId, correctAnswers) {
+            const input = document.getElementById(inputId);
+            const feedback = document.getElementById(feedbackId);
+            const userAnswer = input.value.trim().toLowerCase();
+
+            // Check if the user's answer is in the list of correct answers
+            const isCorrect = correctAnswers.some(answer => userAnswer === answer.toLowerCase());
+
+            if (isCorrect) {
+                feedback.textContent = '¡Correcto!';
+                feedback.className = 'feedback correct';
+            } else {
+                // Show all possible correct answers if incorrect
+                feedback.textContent = `Incorrecto. Posibles respuestas correctas: ${correctAnswers.join(' / ')}`;
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        /**
+         * Checks all quiz answers and provides feedback.
+         */
+        function checkAllAnswers() {
+            // Short Answer
+            checkShortAnswer('sa1', 'sa1-feedback', quizAnswers.sa1);
+            checkShortAnswer('sa2', 'sa2-feedback', quizAnswers.sa2);
+            checkShortAnswer('sa3', 'sa3-feedback', quizAnswers.sa3);
+            checkShortAnswer('sa4', 'sa4-feedback', quizAnswers.sa4);
+            checkShortAnswer('sa5', 'sa5-feedback', quizAnswers.sa5);
+
+            // Multiple Choice
+            checkMultipleChoice('mc1', 'mc1-feedback', quizAnswers.mc1);
+            checkMultipleChoice('mc2', 'mc2-feedback', quizAnswers.mc2);
+            checkMultipleChoice('mc3', 'mc3-feedback', quizAnswers.mc3);
+            checkMultipleChoice('mc4', 'mc4-feedback', quizAnswers.mc4);
+            checkMultipleChoice('mc5', 'mc5-feedback', quizAnswers.mc5);
+
+            // Fill in the Blanks
+            checkShortAnswer('fb1', 'fb1-feedback', quizAnswers.fb1); // Reusing checkShortAnswer as logic is same
+            checkShortAnswer('fb2', 'fb2-feedback', quizAnswers.fb2);
+            checkShortAnswer('fb3', 'fb3-feedback', quizAnswers.fb3);
+            checkShortAnswer('fb4', 'fb4-feedback', quizAnswers.fb4);
+            checkShortAnswer('fb5', 'fb5-feedback', quizAnswers.fb5);
+
+            // Translation
+            checkTranslation('tr1', 'tr1-feedback', quizAnswers.tr1);
+            checkTranslation('tr2', 'tr2-feedback', quizAnswers.tr2);
+            checkTranslation('tr3', 'tr3-feedback', quizAnswers.tr3);
+            checkTranslation('tr4', 'tr4-feedback', quizAnswers.tr4);
+            checkTranslation('tr5', 'tr5-feedback', quizAnswers.tr5);
+        }
+    </script>
+</body>
+</html>
